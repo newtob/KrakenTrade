@@ -128,15 +128,15 @@ class API(object):
 
         attempt = 0
         while attempt < self.retries:
-            logger.debug('Posting query: nonce', data['nonce'], 'attempt', attempt)
+            logger.debug('Posting query: nonce %d, attempt %d.', data['nonce'], attempt)
             self.response = self.session.post(url, data = data, headers = headers)
             status = self.response.status_code
                 
             if status in self.successcodes:
                 break
             elif status in self.retrycodes and attempt < self.retries:
-                logger.debug('HTTP error', status)
-                logger.debug('Sleeping for', self.cooldown, 'seconds...')
+                logger.debug('HTTP error %d', status)
+                logger.debug('Sleeping for %d seconds', self.cooldown)
                 time.sleep(self.cooldown)
                 attempt += 1
             else:
